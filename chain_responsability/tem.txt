@@ -1,0 +1,113 @@
+# -*- coding: UTF-8 -*-
+
+from descontos import Desconto_por_cinco_itens, Desconto_por_mais_de_quinhentos_reais, Sem_desconto
+
+class Calculador_de_Descontos(object):
+
+	def calcular(self, orcamento):
+		return Desconto_por_cinco_itens(
+					Desconto_por_mais_de_quinhentos_reais(Sem_desconto())
+				).calcula(orcamento)
+
+if __name__  == "__main__" : 
+
+	from orcamento import Orcamento, Item
+	
+	orcamento = Orcamento()
+	orcamento.adiciona_item(Item("ITEM -1", 100.0))
+	orcamento.adiciona_item(Item("ITEM -2", 50.0))
+	orcamento.adiciona_item(Item("ITEM -3", 400.0))
+
+	desconto = Calculador_de_Descontos().calcular(orcamento)
+	print desconto# -*- encoding: UTF-8 -*-
+
+from impostos import ISS, ICMS
+
+class Calculador_de_impostos(object):
+
+	def realiza_calculo(self, orcamento, imposto):
+		imposto_calculado = imposto.calcula(orcamento)
+		print imposto_calculado
+
+
+if __name__ == "__main__":
+
+	from orcamento import Orcamento
+
+	calculador = Calculador_de_impostos()
+	orcamento = Orcamento(500)
+
+	calculador.realiza_calculo(orcamento, ISS())
+	calculador.realiza_calculo(orcamento, ICMS())# -*- coding : UTF-8 -*-
+
+class Desconto_por_cinco_itens(object):
+
+	def __init__(self, proximo_desconto):
+		self.__proximo_desconto = proximo_desconto
+
+	def calcula(self, orcamento):
+		if orcamento.total_itens > 5 : 
+			return orcamento.valor * 0.1
+		else : 
+			return self.__proximo_desconto.calcula(orcamento)
+
+class Desconto_por_mais_de_quinhentos_reais(object):
+
+	def __init__(self, proximo_desconto):
+		self.__proximo_desconto = proximo_desconto
+
+	def calcula(self, orcamento):
+		if orcamento.valor > 500 : 
+			return orcamento.valor * 0.07
+		else : 
+			return self.__proximo_desconto.calcula(orcamento)
+
+
+class Sem_desconto(object):
+
+	def calcula(self, orcamento):
+		return 0
+
+class ISS(object):
+	def calcula(self, orcamento):
+		return orcamento.valor * 0.1
+
+class ICMS(object):
+	def calcula(self, orcamento):
+		return orcamento.valor * 0.06# -*- coding: UTF-8 -*-
+
+class Orcamento(object):
+
+	def __init__(self):
+		self.__itens = [] 
+
+	@property
+	def valor(self):
+		total = 0.0
+		for item in self.__itens : 
+			total += item.valor
+		return total
+
+	def obter_itens(self):
+		return tuple(self.__itens)
+
+	@property
+	def total_itens(self):
+		return len(self.__itens)
+
+	def adiciona_item(self, item):
+		self.__itens.append(item)
+
+class Item(object):
+
+	def __init__(self, nome, valor):
+		self.__nome = nome
+		self.__valor = valor
+
+	@property
+	def nome(self):
+		return self.__nome
+
+	@property
+	def valor(self):
+		return self.__valor
