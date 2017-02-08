@@ -1,0 +1,29 @@
+package state;
+
+public class Finalizado extends EstadoDeUmOrcamento{
+
+	@Override
+	public void aprova(Orcamento orcamento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cancelado(Orcamento orcamento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finalizado(Orcamento orcamento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aplicaDescontoExtra(Orcamento orcamento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

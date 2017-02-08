@@ -1,0 +1,12 @@
+package state;
+
+public abstract class EstadoDeUmOrcamento {
+
+	public abstract void aprova(Orcamento orcamento);
+	
+	public abstract void cancelado(Orcamento orcamento);
+	
+	public abstract void finalizado(Orcamento orcamento);
+	
+	public abstract void aplicaDescontoExtra(Orcamento orcamento);
+}
